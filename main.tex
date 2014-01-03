@@ -100,8 +100,7 @@ in the BioJS~\cite{site:biojs} project.
 
 \subsection*{Current Methods and Implementations}
 
-There are two main methods for representing a graph in two-dimensions, making
-it possible to display within an HTML document. These are the \emph{force 
+Two commonly used approaches for representing graphs in two dimensions, allowing display in HTML documents, are the \emph{force 
 directed} lay-out, and the \emph{Sugiyama} lay-out. These differ in way they
 represent the hierarchical organisation of elements within a graph, and are
 each suitable for different kinds of data.
@@ -111,19 +110,19 @@ space, placing related nodes closer to each-other, and unrelated nodes further
 away from each other. A typical method of achieving this is to model the lay-out
 as a two-dimensional particle simulation, where nodes exert a repulsive force
 upon each other, and edges between nodes exert an attractive force. Stable lay-outs
-are those representing local energy minima of the simulation. Several HTML
-tools exist to lay out graphs in this manner, notably CytoScape~\cite{cytoscape}
-and the force-directed lay-out engine in the D3~\cite{d3} project. This method
+are those representing local energy minima of the simulation. 
+
+
+This method (e.g. D3 project ~\cite{d3})
 is straight-forward to implement and render, and is a suitable representation of
 graphs where we care more about the existence of edges than their directions, and
 more about identifying clusters of nodes than elucidating the internal structure
 of such clusters. For example in a protein-protein interaction
 network (see Figure~\ref{fig:force-directed}) force directed lay-outs are often used
 since they are good at indicating highly connected interactors and clusters of
-interactors, thus high-lighting centrally significant parts of the graph. Another typical
-use case of this method is the visualisation of social networks.
+interactors, thus high-lighting centrally significant parts of the graph. 
 
-The other standard approach to rendering graphs visually is Sugiyama-style 
+The other commonly-used approach to rendering graphs visually is Sugiyama-style 
 graph drawing ~\cite{sugiyama}. This method also attempts to group related
 elements, but in addition it assigns significance to the structure of relationships by
 introducing the concept of \emph{root} and \emph{rank}. Rank is
@@ -137,8 +136,7 @@ side of the relationship is closer to the root. Such graphs are typically descri
 as \emph{trees}, and the nodes furthest from the root as \emph{leaves}.
 This kind of representation is suitable
 for graphs in which the structure of relationships is important, which is a feature
-of several types of graphs, such as ontologies, phylogenetic trees and finite state
-automata. Singly rooted, acyclic trees are the most straightforward structures
+of several types of graphs, such as ontologies, and phylogenetic trees. Singly rooted, acyclic trees are the most straightforward structures
 to lay out and display, but this method can be applied to multiply rooted directed
 graphs with cycles (such as biochemical pathways). 
 
@@ -146,7 +144,7 @@ Until now, using the \emph{Sugiyama} method has required generating image files,
 either on demand or through batch preprocessing, and then sending them out over the network to
 a suitable display device. Several tools exist for this purpose, including
 GraphViz~\cite{graphviz}, which is used by several projects for rendering Gene Ontology
-graphs. This requires that any group wishing to view graphical
+graphs. This requires that any group wishing to employ this method for graphical
 network analysis have access to the resources and expertise to manage either
 a server capable of dynamically generating such images, or to produce the
 images required in advance. In either case, user interaction is very limited.
@@ -155,7 +153,7 @@ What is new about this component is the use of a Javascript Sugiyama lay-out eng
 to eliminate the image file generation, which cannot be done within a browser.
 Modern web-browsers have advanced to the point where it is now practical to
 calculate layouts for graphs of moderate size (in the order of around 200 to 500
-nodes, depending on density of connections) and render them in a dynamic hyper-text
+nodes, depending on the density of connections) and render them in a dynamic hyper-text
 page, using tools such as Javascript and Scaled Vector Graphics (SVG). This accounts
 for the great majority of networks that one might want to visualise, particularly
 since networks of greater information densities are very difficult for humans to
@@ -163,7 +161,7 @@ interpret when rendered. We have taken advantage of the opportunity afforded
 by modern browser tools to produce a generic network display tool that does not require
 any server-side resources, and which is suitable for a
 variety of scientific purposes. This approach provides a much greater degree of customisation,
-interaction and flexibility than typical image generation approaches.
+interaction and flexibility than approaches based on image generation.
 
 \subsection*{Features}
 
