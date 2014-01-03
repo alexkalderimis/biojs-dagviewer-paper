@@ -120,10 +120,11 @@ as a two-dimensional particle simulation, where nodes exert a repulsive force
 upon each other, and edges between nodes exert an attractive force. Stable
 lay-outs are those representing local energy minima of the simulation. 
 
-This method (e.g. D3 project ~\cite{d3}) is straight-forward to implement and
-render, and is a suitable representation of graphs where we care more about the
-existence of edges than their directions, and more about identifying clusters of
-nodes than elucidating the internal structure of such clusters. For example in a
+This method is straight-forward to implement (see Cytoscape ~\cite{cytoscape}
+and D3 project ~\cite{d3} for example Javascript implementations), and is a
+suitable representation of graphs where we care more about the existence of
+edges than their directions, and more about identifying clusters of nodes than
+elucidating the internal structure of such clusters. For example in a
 protein-protein interaction network (see Figure~\ref{fig:force-directed}) force
 directed lay-outs are often used since they are good at indicating highly
 connected interactors and clusters of interactors, thus high-lighting centrally
@@ -152,16 +153,16 @@ Until now, using the \emph{Sugiyama} method has required generating image files,
 either on demand or through batch preprocessing, and then sending them out over
 the network to a suitable display device. Several tools exist for this purpose,
 including GraphViz~\cite{graphviz}, which is used by several projects for
-rendering Gene Ontology graphs. This requires that any group wishing to employ
-this method for graphical network analysis have access to the resources and
+rendering Gene Ontology graphs. This requires any group wishing to employ
+this method for graphical network analysis to have access to the resources and
 expertise to manage either a server capable of dynamically generating such
 images, or to produce the images required in advance. In either case, user
 interaction is very limited.
 
 What is new about this component is the use of a Javascript Sugiyama lay-out
 engine to eliminate the image file generation, which cannot be done within a
-browser.  Modern web-browsers have advanced to the point where it is now
-practical to calculate layouts for graphs of moderate size (in the order of
+browser. Modern web-browsers have advanced to the point where it is now
+practicable to calculate layouts for graphs of moderate size (in the order of
 around 200 to 500 nodes, depending on the density of connections) and render
 them in a dynamic hyper-text page, using tools such as Javascript and Scaled
 Vector Graphics (SVG). This accounts for the great majority of networks that one
@@ -180,56 +181,66 @@ than approaches based on image generation.
 \includegraphics[width=0.4\textwidth]{dagify.png}
 \caption{
     \label{fig:1}
-    The graph viewer (left), displaying annotations from the Gene Ontology for
-    the \textit{D. melanogaster gene} \emph{cdc2}, showing the control panel (right).
+    The DAGViewer, displaying annotations (left) from the Gene Ontology for
+    the \textit{D. melanogaster gene} \emph{cdc2}, and the control panel (right).
 }
 \end{figure}
 
 \begin{figure}[htb]
 \centering
 \includegraphics[width=0.4\textwidth]{dagify-subgraph.png}
-\caption{\label{fig:2}The graph viewer, displaying a subgraph of annotations from the gene ontology for the D. melanogaster gene \emph{cdc2}, selected using the control panel.}
+\caption{
+  \label{fig:2}
+  The graph viewer, displaying a subgraph of annotations from the Gene Ontology
+  for the \textit{D. melanogaster gene} \emph{cdc2}, selected using the control panel.
+}
 \end{figure}
 
-The graph viewer presented here uses a collection of publically available, open-source
-Javascript tools, including the Backbone~\cite{backbone} framework, the dagre-d3~\cite{dagre-d3}
-layout engine, and D3~\cite{d3} data-binding and presentation
-library. The combination of these tools make it possible to build a tool in Javascript
-and running in modern browsers that provides rich interaction and graphical analysis
-possibilities, allowing users to focus on the data, eg. the Gene Ontology Annotation
-displayer in figure~\ref{fig:1}.
+The graph viewer presented here uses a collection of publically available,
+open-source Javascript tools, including the Backbone~\cite{backbone} framework,
+the dagre-d3~\cite{dagre-d3} layout engine, and D3~\cite{d3} data-binding and
+presentation library. The combination of these tools make it possible to build a
+tool in Javascript and running in modern browsers that provides rich interaction
+and graphical analysis possibilities, allowing users to focus on the data, eg.
+in the Gene Ontology Annotation displayer in Figure~\ref{fig:1}.
 
-The current implementation allows a javascript component to be placed on any page
-and be provided with any kind of linked network data; the data is rendered
-to the screen in the familiar box and line style of a Sugiyama graph drawing. Unlike
-static images, this graph can be zoomed, panned, reorientated and rescaled, allowing users to
-make sense of dense networks. Since the graph is rendered with SVG technology, rescaling
-does not lower graphical resolution, and text legibility is preserved over wide range of zoom
-levels.
+The current implementation allows a Javascript component to be placed on any
+page and be provided with any kind of linked network data; the data is rendered
+to the screen in the familiar box and line style of a Sugiyama graph drawing.
+Unlike static images, this graph can be zoomed, panned, reorientated and
+rescaled, allowing users to make sense of dense networks. Since the graph is
+rendered with SVG technology, rescaling does not lower graphical resolution, and
+text legibility is preserved over a wide range of zoom levels.
 
-The user can interact more deeply with this representation than they could with a standard
-fixed image. Individual nodes and edges can each have their own styles and behaviour, allowing
-contextual tooltips and hover effects to provide information even when zoomed out. Since the
-information composing the graph is available to the page at runtime as a data-structure, it can
-be searched and filtered, and the graph can been zoomed and scaled to highlight particular nodes
-and edges that interest the user.
+The user can interact more deeply with this representation than they could with
+a standard fixed image. Individual nodes and edges can each have their own
+styles and behaviour, allowing contextual tooltips and mouse-hover effects to
+provide information even when zoomed out. Since the information composing the
+graph is available to the page at runtime as a data-structure, it can be
+searched and filtered, and the graph can been zoomed and scaled to highlight
+particular nodes and edges that interest the user.
 
-The graph itself can also be edited at runtime, enabling the ability to display arbitrary 
-subgraphs of the main data structure. Figure~\ref{fig:2} illustrates the display of one 
-particular subgraph of the information presented in Figure~\ref{fig:1}, reorientated to make the 
-best use of the available screen space. This particular subgraph is defined as those nodes 
-reachable from one particular high-level ontology term, \emph{developmental process}.
+A control panel element (see Figure~\ref{fig:1}) is provided that provides
+access to this functionality, allowing users to search for nodes within the
+graph, and filter the graph to focus on relevant sub-sets of the available
+information. Figure~\ref{fig:2} illustrates the display of one particular
+subgraph of the information presented in Figure~\ref{fig:1}, reorientated to
+make the best use of the available screen space. This particular subgraph is
+defined as those nodes reachable from one particular high-level ontology term,
+\emph{developmental process}.
 
 \subsection*{Installation}
 
-As a Javascript tool, installation means indicating which resources a page needs to load.
-The DAG viewer tool is a modular javascript component, making use of other
-existing resources. As such, the dependencies (appendix~\ref{sec:deps}) need to be included
-on the page before the component itself can be used. 
-Once these are loaded the BioJS DAGViewer component itself can be included (see code
-sample~\ref{code:loading}).
-This should be downloaded from the Biojs repository~\cite{site:biojs-registry}
-and hosted locally.
+As a BioJS Javascript component, the intended audience is web-developers aiming
+to provide functionality for life-scientists. It is expected to be deployed
+within HTML pages and rendered in modern browsers. As such,
+installation means indicating which resources a page needs to load.  The
+DAGViewer tool is a modular javascript component, making use of other existing
+resources (Appendix~\ref{sec:deps}); these dependencies need to be
+included on the page before the component itself can be used.  Once these are
+loaded the BioJS DAGViewer component itself can be included (see code
+sample~\ref{code:loading}).  This should be downloaded from the BioJS
+repository~\cite{site:biojs-registry} and hosted locally.
 
 \begin{lstlisting}[caption={Loading the DAG-Viewer Library}, label={code:loading}]
 <script src="Biojs.DAGViewer.js"></script>
@@ -237,8 +248,9 @@ and hosted locally.
 
 \subsection*{Usage}
 
-With these elements available, a user is then able to instantiate a new DAG viewer component
-pointing at a defined element in the document object model (DOM), or page:
+With these elements available, a user is then able to instantiate a new
+DAGViewer component pointing at a defined element in the document object model
+(DOM), or page:
 
 \begin{lstlisting}[caption={Instantiating a new DAGViewer Component}, label={code:new}]
 var viewer = new Biojs.DAGViewer({
@@ -246,13 +258,15 @@ var viewer = new Biojs.DAGViewer({
 });
 \end{lstlisting}
 
-There is a large number of configurable parameters that can be provided at instantiation
-(or indeed, later). These mostly relate to configuring how to interpret the graph data
-provided. It is accepted that data may come in different formats, and rather than requiring
-users to convert their node and edge data to a predefined format, users can provide adapters
-that allow this component to read and display different kinds of graph data, while providing
-sensible defaults. More detail is provided on the BioJS registry documentation pages, but as
-an example consider a graph (representing a protein interaction network) which has nodes of the form:
+There is a large number of configurable parameters that can be provided at
+instantiation (or indeed, later). These mostly relate to configuring how to
+interpret the graph data provided. It is accepted that data may come in
+different formats, and rather than requiring users to convert their node and
+edge data to a predefined format, users can provide adapters that allow this
+component to read and display different kinds of graph data, while providing
+sensible defaults. More detail is provided on the BioJS registry documentation
+pages, but as an example consider a graph (representing a protein interaction
+network) which has nodes of the form:
 
 \begin{lstlisting}[caption={Example Nodes}, label={code:example-nodes}]
 var nodes = [
