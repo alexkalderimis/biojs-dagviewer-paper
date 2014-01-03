@@ -16,7 +16,10 @@
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
 \lstdefinelanguage{JavaScript}{
-  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywords={
+    typeof, new, true, false, catch, function, return, null, catch, 
+    switch, var, if, in, while, do, else, case, break
+  },
   keywordstyle=\color{blue}\bfseries,
   ndkeywords={class, export, boolean, throw, implements, import, this},
   ndkeywordstyle=\color{darkgray}\bfseries,
@@ -51,7 +54,9 @@
 
 
 \title{\textit{BioJS} DAGViewer Component \\
-\small{A reusable javascript component for displaying connected graphs of information.}
+ \small{
+  A reusable Javascript component for displaying directed graphs of information.
+ }
 }
 
 \author[1]{Alexis Kalderimis \thanks{alex@intermine.org}}
@@ -60,7 +65,10 @@
 \author[1]{Rachel Lyne \thanks{rachel@flymine.org}}
 \author[1]{Michael Lyne \thanks{mike@intermine.org}}
 \author[1]{Gos Micklem \thanks{g.micklem@gen.cam.ac.uk - corresponding author}}
-\affil[1]{Department of Genetics and Cambridge Systems Biology Centre, Cambridge University, Downing Street, Cambridge, CB2 3EH, UK.}
+\affil[1]{
+    Department of Genetics and Cambridge Systems Biology Centre,
+    Cambridge University, Downing Street, Cambridge, CB2 3EH, UK.
+}
 
 \maketitle
 \thispagestyle{fancy}
@@ -68,100 +76,102 @@
 
 \begin{abstract}
 
-The DAGViewer BioJS component is a reusable Javascript
-component made available as part of the BioJS project and intended
-display graphs of structured data, with a particular emphasis on
-Directed Acyclic Graphs (DAGs). It enables users to
-display representations of graphs of data, such as ontologies
-or phylogenetic trees, in hyper-text (HTML) documents. 
-This component is generic, since it is capable (given the appropriate configuration)
-of displaying any kind of data which is organised as a graph.
-The features of this component which are useful for examining and
-filtering large and complex graphs are described.
+The DAGViewer BioJS component is a reusable Javascript component made available
+as part of the BioJS project and intended to be used to display graphs of
+structured data, with a particular emphasis on Directed Acyclic Graphs (DAGs).
+It enables users to embed representations of graphs of data, such as ontologies
+or phylogenetic trees, in hyper-text documents (HTML).  This component is
+generic, since it is capable (given the appropriate configuration) of displaying
+any kind of data which is organised as a graph.  The features of this component
+which are useful for examining and filtering large and complex graphs are
+described.
 
 \end{abstract}
 \clearpage
 
 \section*{Introduction}
 
-The \emph{graph} abstract data type is an important concept in mathematics
-and computer science, and is the most appropriate representation for several
-classes of real world phenomena and scientific constructions. Some examples of
-these include phylogenetic trees, protein-protein interaction networks and 
-scientific ontologies such as the Gene Ontology ~\cite{GO} and the Sequence
-ontology ~\cite{SO}. One feature of this type of data structure is that they are
-much easier for humans to understand when presented as a graphical network which
-preserves the structured nature of the data, than
-when they are displayed flattened in tabular or list format. The component described
-here is capable of displaying graphs of data, in particular Directed Acyclic Graphs (DAGs),
-efficiently using Javascript to calculate the layout, and features of
-modern web-browers for rendering, and is designed to integrate with other components
-in the BioJS~\cite{site:biojs} project.
+The \emph{graph} abstract data type is an important concept in mathematics and
+computer science, and is the most appropriate representation for several classes
+of real world phenomena and scientific constructions. Some examples of these
+include phylogenetic trees, protein-protein interaction networks and scientific
+ontologies such as the Gene Ontology ~\cite{GO} and the Sequence ontology
+~\cite{SO}. One feature of this type of data structure is that they are much
+easier for humans to understand when presented as a graphical network which
+preserves the structured nature of the data, than when they are displayed
+flattened in tabular or list format. The component described here is capable of
+displaying graphs of data, in particular Directed Acyclic Graphs (DAGs),
+efficiently using Javascript to calculate the layout, and features of modern
+web-browers for rendering, and is designed to integrate with other components in
+the BioJS~\cite{site:biojs} project.
 
 \subsection*{Current Methods and Implementations}
 
-Two commonly used approaches for representing graphs in two dimensions, allowing display in HTML documents, are the \emph{force 
-directed} lay-out, and the \emph{Sugiyama} lay-out. These differ in way they
-represent the hierarchical organisation of elements within a graph, and are
-each suitable for different kinds of data.
+Two commonly used approaches for representing graphs in two dimensions, allowing
+display in HTML documents, are the \emph{force directed} lay-out, and the
+\emph{Sugiyama} lay-out. These differ in way they represent the hierarchical
+organisation of elements within a graph, and are each suitable for different
+kinds of data.
 
 Force directed layouts distribute nodes throughout the available co-ordinate
 space, placing related nodes closer to each-other, and unrelated nodes further
 away from each other. A typical method of achieving this is to model the lay-out
 as a two-dimensional particle simulation, where nodes exert a repulsive force
-upon each other, and edges between nodes exert an attractive force. Stable lay-outs
-are those representing local energy minima of the simulation. 
+upon each other, and edges between nodes exert an attractive force. Stable
+lay-outs are those representing local energy minima of the simulation. 
 
+This method (e.g. D3 project ~\cite{d3}) is straight-forward to implement and
+render, and is a suitable representation of graphs where we care more about the
+existence of edges than their directions, and more about identifying clusters of
+nodes than elucidating the internal structure of such clusters. For example in a
+protein-protein interaction network (see Figure~\ref{fig:force-directed}) force
+directed lay-outs are often used since they are good at indicating highly
+connected interactors and clusters of interactors, thus high-lighting centrally
+significant parts of the graph. 
 
-This method (e.g. D3 project ~\cite{d3})
-is straight-forward to implement and render, and is a suitable representation of
-graphs where we care more about the existence of edges than their directions, and
-more about identifying clusters of nodes than elucidating the internal structure
-of such clusters. For example in a protein-protein interaction
-network (see Figure~\ref{fig:force-directed}) force directed lay-outs are often used
-since they are good at indicating highly connected interactors and clusters of
-interactors, thus high-lighting centrally significant parts of the graph. 
-
-The other commonly-used approach to rendering graphs visually is Sugiyama-style 
+The other commonly-used approach to rendering graphs visually is Sugiyama-style
 graph drawing ~\cite{sugiyama}. This method also attempts to group related
-elements, but in addition it assigns significance to the structure of relationships by
-introducing the concept of \emph{root} and \emph{rank}. Rank is
-defined as the number of edges in the shortest path from a node to a root. A root
-is defined as a node of rank 0. When rendered, nodes of the same rank within a graph
-are aligned visually, either horizontally or vertically, producing a structured
-hierarchical lay-out of the graph.
+elements, but in addition it assigns significance to the structure of
+relationships by introducing the concept of \emph{root} and \emph{rank}. Rank is
+defined as the number of edges in the shortest path from a node to a root. A
+root is defined as a node of rank 0. When rendered, nodes of the same rank
+within a graph are aligned visually, either horizontally or vertically,
+producing a structured hierarchical lay-out of the graph.
 
-This method requires edges to have a \emph{direction} that indicates which
-side of the relationship is closer to the root. Such graphs are typically described
-as \emph{trees}, and the nodes furthest from the root as \emph{leaves}.
-This kind of representation is suitable
-for graphs in which the structure of relationships is important, which is a feature
-of several types of graphs, such as ontologies, and phylogenetic trees. Singly rooted, acyclic trees are the most straightforward structures
-to lay out and display, but this method can be applied to multiply rooted directed
-graphs with cycles (such as biochemical pathways). 
+This method requires edges to have a \emph{direction} that indicates which side
+of the relationship is closer to the root. Such graphs are typically described
+as \emph{trees}, and the nodes furthest from the root as \emph{leaves}.  This
+kind of representation is suitable for graphs in which the structure of
+relationships is important, which is a feature of several types of graphs, such
+as ontologies, and phylogenetic trees. Singly rooted, acyclic trees are the most
+straightforward structures to lay out and display, but this method can be
+applied to multiply rooted directed graphs with cycles (such as biochemical
+pathways). 
 
 Until now, using the \emph{Sugiyama} method has required generating image files,
-either on demand or through batch preprocessing, and then sending them out over the network to
-a suitable display device. Several tools exist for this purpose, including
-GraphViz~\cite{graphviz}, which is used by several projects for rendering Gene Ontology
-graphs. This requires that any group wishing to employ this method for graphical
-network analysis have access to the resources and expertise to manage either
-a server capable of dynamically generating such images, or to produce the
-images required in advance. In either case, user interaction is very limited.
+either on demand or through batch preprocessing, and then sending them out over
+the network to a suitable display device. Several tools exist for this purpose,
+including GraphViz~\cite{graphviz}, which is used by several projects for
+rendering Gene Ontology graphs. This requires that any group wishing to employ
+this method for graphical network analysis have access to the resources and
+expertise to manage either a server capable of dynamically generating such
+images, or to produce the images required in advance. In either case, user
+interaction is very limited.
 
-What is new about this component is the use of a Javascript Sugiyama lay-out engine
-to eliminate the image file generation, which cannot be done within a browser.
-Modern web-browsers have advanced to the point where it is now practical to
-calculate layouts for graphs of moderate size (in the order of around 200 to 500
-nodes, depending on the density of connections) and render them in a dynamic hyper-text
-page, using tools such as Javascript and Scaled Vector Graphics (SVG). This accounts
-for the great majority of networks that one might want to visualise, particularly
-since networks of greater information densities are very difficult for humans to
-interpret when rendered. We have taken advantage of the opportunity afforded
-by modern browser tools to produce a generic network display tool that does not require
-any server-side resources, and which is suitable for a
-variety of scientific purposes. This approach provides a much greater degree of customisation,
-interaction and flexibility than approaches based on image generation.
+What is new about this component is the use of a Javascript Sugiyama lay-out
+engine to eliminate the image file generation, which cannot be done within a
+browser.  Modern web-browsers have advanced to the point where it is now
+practical to calculate layouts for graphs of moderate size (in the order of
+around 200 to 500 nodes, depending on the density of connections) and render
+them in a dynamic hyper-text page, using tools such as Javascript and Scaled
+Vector Graphics (SVG). This accounts for the great majority of networks that one
+might want to visualise, particularly since networks of greater information
+densities are very difficult for humans to interpret when rendered. We have
+taken advantage of the opportunity afforded by modern browser tools to produce a
+generic network display tool that does not require any server-side resources,
+and which is suitable for a variety of scientific purposes. This approach
+provides a much greater degree of customisation, interaction and flexibility
+than approaches based on image generation.
 
 \subsection*{Features}
 
@@ -421,3 +431,5 @@ Document Object Model (DOM) to be ready before they can be loaded.
 
 
 \end{document}
+
+% vim: textwidth=80 colorcolumn=81
