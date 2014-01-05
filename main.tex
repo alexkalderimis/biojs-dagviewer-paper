@@ -258,7 +258,7 @@ var viewer = new Biojs.DAGViewer({
 });
 \end{lstlisting}
 
-There is a large number of configurable parameters that can be provided at
+There are a large number of configurable parameters that can be provided at
 instantiation (or indeed, later). These mostly relate to configuring how to
 interpret the graph data provided. It is accepted that data may come in
 different formats, and rather than requiring users to convert their node and
@@ -275,9 +275,10 @@ var nodes = [
 ];
 \end{lstlisting}
 
-Here we will want to identify each node by its accession number (here from Uniprot) and label
-it by its name, if it has one, or by its accession if it does not. This behaviour
-cab be defined by passing a couple of parameters:
+Here we will want to \textit{identify} each node by its accession number (here
+from Uniprot) and \textit{label} it by its name, if it has one, or by its
+accession if it does not. This behaviour can be defined by passing a couple of
+parameters:
 
 \begin{lstlisting}[caption={Node Adaptor Example}, label={code:node-adaptor}]
 var viewer = new Biojs.DAGViewer({
@@ -288,18 +289,19 @@ var viewer = new Biojs.DAGViewer({
 \end{lstlisting}
 
 Here the \texttt{nodeLabels} parameter indicates which fields should be read to
-obtain a label for this node, and the \texttt{nodeKey} parameter is a function that
-takes a node and returns an identifier. Similar configuration options exist for
-interpreting edges, determining the list of graph roots, providing style classes to
-nodes and edges and other functions.
+obtain a label for this node, and the \texttt{nodeKey} parameter is a function
+that takes a node and returns an identifier (possibly computed). Similar
+configuration options exist for interpreting edges, determining the list of
+graph roots, providing style classes to nodes and edges and other functions.
 
-Once configured, the component must be given the definition of the graph it
-is meant to visualise. A graph here is defined as two collections, one of nodes,
-and the other of edges between nodes. These can be unconnected data structures, such as
-loaded from JSON files, without interior references, or they may be circular self-referential
-data-structures, with edges pointing to their nodes. A small
-graph that represents a (grossly simplified) portion of the \textit{H. sapiens} family tree,
-and the viewer to display it, could be configured as follows:
+Once configured, the component must be given the definition of the graph it is
+meant to visualise. A graph here is defined as two collections, one of nodes,
+and the other of edges between nodes. These can be unconnected data structures,
+such as loaded from JSON files, without interior references, or they may be
+circular self-referential data-structures, with edges pointing to their nodes. A
+small graph that represents a (grossly simplified) portion of the \textit{H.
+sapiens} family tree, and the viewer to display it, could be configured as
+follows:
 
 \begin{lstlisting}[caption={\emph{H. sapiens} phylogenetic tree sample graph}]
 var species = [
@@ -329,9 +331,10 @@ viewer.setGraph({
 });
 \end{lstlisting}
 
-As well as defining the data model, this component allows applications to respond to
-user input. An example of this is responding when a user clicks on a node in the graph. In the
-case of our Human ancestry graph, that might look like this:
+As well as defining the data model, this component allows applications to
+respond to user input. An example of this is responding when a user clicks on a
+node in the graph. In the case of our Human ancestry graph, that might look like
+this:
 
 \begin{lstlisting}[caption={Listening for Events}, label={code:add-listener}]
 viewer.addListener(
@@ -344,49 +347,65 @@ viewer.addListener(
 
 \section*{Discussion}
 
-Up to now there have not been any freely available, open-source libraries for efficiently
-rendering Sugiyama graph diagrams in the browser. The publication of this library as part of the
-Biojs project enables a number of applications that are currently very difficult to implement
-correctly. This component is aimed at a need that is particularly relevant for developers in
-the life-sciences, where there is frequent need to represent directed graphs, eg.
-when dealing with phylogeny, pathways, interactions, developmental stages or ontologies.
+Until recently it has been difficult to find freely available, open-source libraries for
+efficiently rendering Sugiyama graph diagrams in the browser. The Cytoscape
+project ~\cite{cytoscape} includes a hierarchical tree layout in its Cytoscape
+Web Javascript package; this is however rather less configurable and flexible
+than this library. Furthermore, The publication of
+this library as part of the Biojs project explicitly encourages interaction
+between multiple components of different types. This enables a number of applications that
+are currently very difficult to implement correctly, such as rendering sets of
+annotations from the Gene Ontology and allowing user interaction. This component is aimed at
+a need that is particularly relevant for developers in the life-sciences, where
+there is frequent need to represent directed graphs, eg.  when dealing with
+phylogeny, pathways, developmental stages or ontologies.
 
 Beyond simplifying this task for developers wishing to get started in graphical
-network visualisation and analysis, by being built from open web-standard technologies this tool
-can be used to interoperate with existing and future applications in ways impossible for static
-image rendering tools. The graph definition can be fetched from a remote networked webservice, for
-example, thus integrating with a large number of existing browser accessible tools. Because of its
-flexible data definition, this component is able to consume data from a wide variety of different
-sources with minimal parsing effort. Since the standard node and edge representation is generally
-in the form of subject-predicate-object, this component would integrate very well into semantic
+network visualisation and analysis, by being built from open web-standard
+technologies this tool can be used to interoperate with existing and future
+applications in ways impossible for static image rendering tools. The graph
+definition can be fetched from a remote networked webservice, for example, thus
+integrating with a large number of existing browser accessible tools.
+
+The orginal use case for this tool was to create a graph viewer that would work
+well with InterMine web-services ~\cite{intermine}, and was generic as to data-type.  
+The wide variety of InterMine web-services now available as part of the
+InterMOD project ~\cite{intermod}, leads us to expect that this component would be
+broadly useful to a wide section of the bio-informatics developer community.
+While it in no way depends on InterMine services, the design of this tool makes
+it straighforward to load from any of the available data-warehouses.
+
+Because of
+its flexible data definition, this component is able to consume data from a wide
+variety of different sources with minimal parsing effort. Since the standard
+node and edge representation is generally in the form of
+subject-predicate-object, this component would integrate very well into semantic
 web tools serving triples as their data representation.
 
-\section*{Conclusions}
-This component meets an important need in the bio-informatics community for an effective,
-attractive and usable visualisation tool for a broad variety of directed acyclic graphs.
-It is therefore anticipated that this tool will be of use to those developing tools
-for researchers in the life-sciences. A great deal of effort has gone into creating,
-curating and composing high quality data sets, and there already exist many services which
-expose these data-sets to the world through networked web-services. This tool is designed to
-plug in seamlessly with existing technologies, helping to maximise the value of existing
-and future curated data sets by bringing enhanced visualisation and exploration functionality.
-By publishing this component freely
-within the Biojs project we expect that a great deal of duplicated
-and wasted effort can be avoided, saving significant amounts of time and money for researchers and
-their funding bodies.
+\section*{Conclusions} This component addresses an important need in the
+bio-informatics community for an effective, attractive and usable visualisation
+tool for a broad variety of directed acyclic graphs.  It is therefore
+anticipated that this tool will be of use to those developing tools for
+researchers in the life-sciences. A great deal of effort has gone into creating,
+curating and integrating high quality data sets, and there already exist many
+services which expose these data-sets to the world through networked
+web-services. This tool is designed to plug in seamlessly with existing
+technologies, helping to maximise the value of existing and future curated data
+sets by bringing enhanced visualisation and exploration functionality.  By
+publishing this component freely within the Biojs project we expect that a great
+deal of duplicated effort can be avoided, saving significant amounts of time and
+money for researchers and their funding bodies.
 
 \subsection*{Competing interests}
 The authors declare that there are no competing interests.
 
 \subsection*{Grant information}
-InterMine has been developed with the support of the following grants, awarded
+This work has been developed with the support of the following grants, awarded
 to Dr. G. Micklem.
 
 \begin{enumerate}
 \item the Wellcome Trust
  \begin{itemize}
- \item{Grant number: 067205}
- \item{Grant number: 082598}
  \item{Grant number: 090297}
  \end{itemize}
 \item and the National Human Genome Research Institute.
@@ -394,6 +413,9 @@ to Dr. G. Micklem.
  \item{Grant number: R01HG004834}
  \end{itemize}
 \end{enumerate}
+
+The content is solely the responsibility of the authors and does not necessarily
+represent the official views of the funding bodies.
 
 \nocite{*}
 {\small\bibliographystyle{unsrt}
@@ -418,8 +440,8 @@ css/foundation/5.0/css/foundation.css">
 <script src="http://cdn.intermine.org/css/foundation/5.0/js/modernizr.js"></script>
 <script src="http://cdn.intermine.org/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<script charset="UTF-8" src="http://cdn.intermine.org/js/intermine/dag-viewer/0.0.1-pre/index.js">
 <script src="http://cdn.intermine.org/css/foundation/5.0/js/foundation/foundation.js"></script>
+<script charset="UTF-8" src="http://cdn.intermine.org/js/intermine/dag-viewer/0.0.1-pre/index.js"></script>
 \end{lstlisting}
 
 Note that the foundation scripts at least must be loaded in the
