@@ -34,7 +34,7 @@
 }
 
 \lstset{frame=tb,
-  language=Javascript,
+  language=JavaScript,
   aboveskip=3mm,
   belowskip=3mm,
   showstringspaces=false,
@@ -53,10 +53,8 @@
 \begin{document}
 
 
-\title{\textit{BioJS} DAGViewer Component \\
- \small{
-  A reusable Javascript component for displaying directed graphs of information.
- }
+\title{\textit{BioJS} DAGViewer:
+  A reusable JavaScript component for displaying directed graphs.
 }
 
 \author[1]{Alexis Kalderimis \thanks{alex@intermine.org}}
@@ -76,7 +74,8 @@
 
 \begin{abstract}
 
-The DAGViewer BioJS component is a reusable Javascript component made available
+\textbf{Summary:}
+The DAGViewer BioJS component is a reusable JavaScript component made available
 as part of the BioJS project and intended to be used to display graphs of
 structured data, with a particular emphasis on Directed Acyclic Graphs (DAGs).
 It enables users to embed representations of graphs of data, such as ontologies
@@ -85,6 +84,12 @@ generic, since it is capable (given the appropriate configuration) of displaying
 any kind of data which is organised as a graph.  The features of this component
 which are useful for examining and filtering large and complex graphs are
 described.
+
+\textbf{Availability:}
+\href{http://github.com/alexkalderimis/dag-viewer-biojs} and
+\href{http://github.com/biojs/biojs}
+
+\textbf{Contact:} g.micklem@gen.cam.ac.uk
 
 \end{abstract}
 \clearpage
@@ -95,39 +100,39 @@ The \emph{graph} abstract data type is an important concept in mathematics and
 computer science, and is the most appropriate representation for several classes
 of real world phenomena and scientific constructions. Some examples of these
 include phylogenetic trees, protein-protein interaction networks and scientific
-ontologies such as the Gene Ontology ~\cite{GO} and the Sequence ontology
+ontologies such as the Gene Ontology ~\cite{GO} and the Sequence Ontology
 ~\cite{SO}. One feature of this type of data structure is that they are much
 easier for humans to understand when presented as a graphical network which
 preserves the structured nature of the data, than when they are displayed
 flattened in tabular or list format. The component described here is capable of
 displaying graphs of data, in particular Directed Acyclic Graphs (DAGs),
-efficiently using Javascript to calculate the layout, and features of modern
-web-browers for rendering, and is designed to integrate with other components in
-the BioJS~\cite{site:biojs} project.
+efficiently using JavaScript to calculate the layout, and features of modern
+web browers for rendering, and is designed to integrate with other components in
+the BioJS~\cite{biojs} project.
 
 \subsection*{Current Methods and Implementations}
 
 Two commonly used approaches for representing graphs in two dimensions, allowing
-display in HTML documents, are the \emph{force directed} lay-out, and the
-\emph{Sugiyama} lay-out. These differ in way they represent the hierarchical
+display in HTML documents, are the \emph{force directed} layout, and the
+\emph{Sugiyama} layout. These differ in the way they represent the hierarchical
 organisation of elements within a graph, and are each suitable for different
 kinds of data.
 
 Force directed layouts distribute nodes throughout the available co-ordinate
-space, placing related nodes closer to each-other, and unrelated nodes further
-away from each other. A typical method of achieving this is to model the lay-out
+space, placing related nodes closer to each other, and unrelated nodes further
+away from each other. A typical method of achieving this is to model the layout
 as a two-dimensional particle simulation, where nodes exert a repulsive force
 upon each other, and edges between nodes exert an attractive force. Stable
-lay-outs are those representing local energy minima of the simulation. 
+layouts are those representing local energy minima of the simulation. 
 
-This method is straight-forward to implement (see Cytoscape ~\cite{cytoscape}
-and D3 project ~\cite{d3} for example Javascript implementations), and is a
+This method is straightforward to implement (see Cytoscape ~\cite{cytoscape}
+and D3 project ~\cite{d3} for example JavaScript implementations), and is a
 suitable representation of graphs where we care more about the existence of
 edges than their directions, and more about identifying clusters of nodes than
 elucidating the internal structure of such clusters. For example in a
 protein-protein interaction network (see Figure~\ref{fig:force-directed}) force
-directed lay-outs are often used since they are good at indicating highly
-connected interactors and clusters of interactors, thus high-lighting centrally
+directed layouts are often used since they are good at indicating highly
+connected interactors and clusters of interactors, thus highlighting centrally
 significant parts of the graph. 
 
 The other commonly-used approach to rendering graphs visually is Sugiyama-style
@@ -137,7 +142,7 @@ relationships by introducing the concept of \emph{root} and \emph{rank}. Rank is
 defined as the number of edges in the shortest path from a node to a root. A
 root is defined as a node of rank 0. When rendered, nodes of the same rank
 within a graph are aligned visually, either horizontally or vertically,
-producing a structured hierarchical lay-out of the graph.
+producing a structured hierarchical layout of the graph.
 
 This method requires edges to have a \emph{direction} that indicates which side
 of the relationship is closer to the root. Such graphs are typically described
@@ -159,12 +164,12 @@ expertise to manage either a server capable of dynamically generating such
 images, or to produce the images required in advance. In either case, user
 interaction is very limited.
 
-What is new about this component is the use of a Javascript Sugiyama lay-out
+What is new about this component is the use of a JavaScript Sugiyama layout
 engine to eliminate the image file generation, which cannot be done within a
-browser. Modern web-browsers have advanced to the point where it is now
+browser. Modern web browsers have advanced to the point where it is now
 practicable to calculate layouts for graphs of moderate size (in the order of
 around 200 to 500 nodes, depending on the density of connections) and render
-them in a dynamic hyper-text page, using tools such as Javascript and Scaled
+them in a dynamic hyper-text page, using tools such as JavaScript and Scaled
 Vector Graphics (SVG). This accounts for the great majority of networks that one
 might want to visualise, particularly since networks of greater information
 densities are very difficult for humans to interpret when rendered. We have
@@ -179,7 +184,7 @@ than approaches based on image generation.
 \includegraphics[width=0.4\textwidth]{force-directed.png}
 \caption{
     \label{fig:force-directed}
-    Using Cytoscaoe to display an interaction network using a force-directed layout.
+    Using Cytoscape to display an interaction network with a force-directed layout.
 }
 \end{figure}
 
@@ -206,14 +211,14 @@ than approaches based on image generation.
 \end{figure}
 
 The graph viewer presented here uses a collection of publically available,
-open-source Javascript tools, including the Backbone~\cite{backbone} framework,
+open-source JavaScript tools, including the Backbone~\cite{backbone} framework,
 the dagre-d3~\cite{dagre-d3} layout engine, and D3~\cite{d3} data-binding and
 presentation library. The combination of these tools make it possible to build a
-tool in Javascript and running in modern browsers that provides rich interaction
-and graphical analysis possibilities, allowing users to focus on the data, eg.
+tool in JavaScript and running in modern browsers that provides rich interaction
+and graphical analysis possibilities, allowing users to focus on the data, e.g.
 in the Gene Ontology Annotation displayer in Figure~\ref{fig:1}.
 
-The current implementation allows a Javascript component to be placed on any
+The current implementation allows a JavaScript component to be placed on any
 page and be provided with any kind of linked network data; the data is rendered
 to the screen in the familiar box and line style of a Sugiyama graph drawing.
 Unlike static images, this graph can be zoomed, panned, reorientated and
@@ -229,18 +234,18 @@ graph is available to the page at runtime as a data-structure, it can be
 searched and filtered, and the graph can been zoomed and scaled to highlight
 particular nodes and edges that interest the user.
 
-A control panel element (see Figure~\ref{fig:1}) is provided that provides
-access to this functionality, allowing users to search for nodes within the
-graph, and filter the graph to focus on relevant sub-sets of the available
-information. Figure~\ref{fig:2} illustrates the display of one particular
-subgraph of the information presented in Figure~\ref{fig:1}, reorientated to
-make the best use of the available screen space. This particular subgraph is
-defined as those nodes reachable from one particular high-level ontology term,
+A control panel element (see Figure~\ref{fig:1}) provides access to this
+functionality, allowing users to search for nodes within the graph, and filter
+the graph to focus on relevant sub-sets of the available information.
+Figure~\ref{fig:2} illustrates the display of one particular subgraph of the
+information presented in Figure~\ref{fig:1}, reorientated to make the best use
+of the available screen space. This particular subgraph is defined as those
+nodes reachable from one particular high-level ontology term,
 \emph{developmental process}.
 
 \subsection*{Installation}
 
-As a BioJS Javascript component, the intended audience is web-developers aiming
+As a BioJS JavaScript component, the intended audience is web developers aiming
 to provide functionality for life-scientists. It is expected to be deployed
 within HTML pages and rendered in modern browsers. As such,
 installation means indicating which resources a page needs to load.  The
@@ -342,7 +347,7 @@ viewer.setGraph({
 
 As well as defining the data model, this component allows applications to
 respond to user input. An example of this is responding when a user clicks on a
-node in the graph. In the case of our Human ancestry graph, that might look like
+node in the graph. In the case of our human ancestry graph, that might look like
 this:
 
 \begin{lstlisting}[caption={Listening for Events}, label={code:add-listener}]
@@ -356,18 +361,18 @@ viewer.addListener(
 
 \section*{Discussion}
 
-Until recently it has been difficult to find freely available, open-source libraries for
-efficiently rendering Sugiyama graph diagrams in the browser. The Cytoscape
-project ~\cite{cytoscape} includes a hierarchical tree layout in its Cytoscape
-Web Javascript package; this is however rather less configurable and flexible
-than this library. Furthermore, The publication of
-this library as part of the Biojs project explicitly encourages interaction
-between multiple components of different types. This enables a number of applications that
-are currently very difficult to implement correctly, such as rendering sets of
-annotations from the Gene Ontology and allowing user interaction. This component is aimed at
-a need that is particularly relevant for developers in the life-sciences, where
-there is frequent need to represent directed graphs, eg.  when dealing with
-phylogeny, pathways, developmental stages or ontologies.
+Until recently it has been difficult to find freely available, open-source
+libraries for efficiently rendering Sugiyama graph diagrams in the browser. The
+Cytoscape project ~\cite{cytoscape} includes a hierarchical tree layout in its
+Cytoscape Web JavaScript package; this is however rather less configurable and
+flexible than this library. Furthermore, The publication of this library as part
+of the BioJS project explicitly encourages interaction between multiple
+components of different types. This enables a number of applications that are
+currently very difficult to implement correctly, such as rendering sets of
+annotations from the Gene Ontology and allowing user interaction. This component
+is aimed at a need that is particularly relevant for developers in the
+life-sciences, where there is frequent need to represent directed graphs, eg.
+when dealing with phylogeny, pathways, developmental stages or ontologies.
 
 Beyond simplifying this task for developers wishing to get started in graphical
 network visualisation and analysis, by being built from open web-standard
@@ -377,21 +382,21 @@ definition can be fetched from a remote networked webservice, for example, thus
 integrating with a large number of existing browser accessible tools.
 
 The orginal use case for this tool was to create a graph viewer that would work
-well with InterMine web-services ~\cite{intermine}, and was generic as to data-type.  
-The wide variety of InterMine web-services now available as part of the
-InterMOD project ~\cite{intermod}, leads us to expect that this component would be
-broadly useful to a wide section of the bio-informatics developer community.
-While it in no way depends on InterMine services, the design of this tool makes
-it straighforward to load from any of the available data-warehouses.
+well with InterMine web-services ~\cite{intermine}, and was generic as to
+data-type.  The wide variety of InterMine web-services now available as part of
+the InterMOD project ~\cite{intermod}, leads us to expect that this component
+would be broadly useful to a wide section of the bio-informatics developer
+community.  While it in no way depends on InterMine services, the design of this
+tool makes it straighforward to load from any of the available data-warehouses.
 
-Because of
-its flexible data definition, this component is able to consume data from a wide
-variety of different sources with minimal parsing effort. Since the standard
-node and edge representation is generally in the form of
+Because of its flexible data definition, this component is able to consume data
+from a wide variety of different sources with minimal parsing effort. Since the
+standard node and edge representation is generally in the form of
 subject-predicate-object, this component would integrate very well into semantic
 web tools serving triples as their data representation.
 
-\section*{Conclusions} This component addresses an important need in the
+\section*{Conclusions}
+This component addresses an important need in the
 bio-informatics community for an effective, attractive and usable visualisation
 tool for a broad variety of directed acyclic graphs.  It is therefore
 anticipated that this tool will be of use to those developing tools for
@@ -401,7 +406,7 @@ services which expose these data-sets to the world through networked
 web-services. This tool is designed to plug in seamlessly with existing
 technologies, helping to maximise the value of existing and future curated data
 sets by bringing enhanced visualisation and exploration functionality.  By
-publishing this component freely within the Biojs project we expect that a great
+publishing this component freely within the BioJS project we expect that a great
 deal of duplicated effort can be avoided, saving significant amounts of time and
 money for researchers and their funding bodies.
 
@@ -455,14 +460,7 @@ css/foundation/5.0/css/foundation.css">
 
 Note that the foundation scripts at least must be loaded in the
 \texttt{body} section of the HTML page, since they require the
-Document Object Model (DOM) to be ready before they can be loaded.
-
-% See this guide for more information on BibTeX:
-% http://libguides.mit.edu/content.php?pid=55482&sid=406343
-
-% For more author guidance please see:
-% http://f1000research.com/author-guidelines
-
+Document Object Model (DOM) to be ready.
 
 % When all authors are happy with the paper, use the 
 % ‘Submit to F1000Research' button from the Share menu above
