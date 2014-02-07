@@ -33,7 +33,8 @@
   morestring=[b]"
 }
 
-\lstset{frame=tb,
+\lstset{
+  frame=none,
   language=JavaScript,
   aboveskip=3mm,
   belowskip=3mm,
@@ -54,7 +55,7 @@
 
 
 \title{\textit{BioJS} DAGViewer:
-  A reusable JavaScript component for displaying directed graphs.
+  a reusable JavaScript component for displaying directed graphs.
 }
 
 \author[1]{Alexis Kalderimis \thanks{alex@intermine.org}}
@@ -81,13 +82,14 @@ structured data, with a particular emphasis on Directed Acyclic Graphs (DAGs).
 It enables users to embed representations of graphs of data, such as ontologies
 or phylogenetic trees, in hyper-text documents (HTML).  This component is
 generic, since it is capable (given the appropriate configuration) of displaying
-any kind of data which is organised as a graph.  The features of this component
+any kind of data that is organised as a graph.  The features of this component
 which are useful for examining and filtering large and complex graphs are
 described.
 
 \textbf{Availability:}
 \url{http://github.com/alexkalderimis/dag-viewer-biojs} and
-\url{http://github.com/biojs/biojs}
+\url{http://github.com/biojs/biojs} and
+\url{http://dx.doi.org/10.5281/zenodo.8303}
 
 \textbf{Contact:} g.micklem@gen.cam.ac.uk
 
@@ -110,30 +112,30 @@ efficiently using JavaScript to calculate the layout, and features of modern
 web browers for rendering, and is designed to integrate with other components in
 the BioJS~\cite{biojs} project.
 
-\subsection*{Current Methods and Implementations}
+\subsection*{Current methods and implementations}
 
 Two commonly used approaches for representing graphs in two dimensions, allowing
-display in HTML documents, are the \emph{force directed} layout, and the
-\emph{Sugiyama} layout. These differ in the way they represent the hierarchical
-organisation of elements within a graph, and are each suitable for different
-kinds of data.
+display in HTML documents, are the \emph{force-directed} layout, and the
+\emph{Sugiyama} layout. These differ in the way that they represent the
+hierarchical organisation of elements within a graph, and are each suitable for
+different kinds of data.
 
-Force directed layouts distribute nodes throughout the available co-ordinate
+Force-directed layouts distribute nodes throughout the available co-ordinate
 space, placing related nodes closer to each other, and unrelated nodes further
 away from each other. A typical method of achieving this is to model the layout
 as a two-dimensional particle simulation, where nodes exert a repulsive force
 upon each other, and edges between nodes exert an attractive force. Stable
 layouts are those representing local energy minima of the simulation. 
 
-This method is straightforward to implement (see Cytoscape ~\cite{cytoscape}
-and D3 project ~\cite{d3} for example JavaScript implementations), and is a
-suitable representation of graphs where we care more about the existence of
-edges than their directions, and more about identifying clusters of nodes than
-elucidating the internal structure of such clusters. For example in a
-protein-protein interaction network (see Figure~\ref{fig:force-directed}) force
-directed layouts are often used since they are good at indicating highly
-connected interactors and clusters of interactors, thus highlighting centrally
-significant parts of the graph. 
+This method is straightforward to implement (see Cytoscape ~\cite{cytoscape} and
+D3 project ~\cite{d3} for example JavaScript implementations), and is a suitable
+representation of graphs where we care more about the existence of edges than
+their directions, and more about identifying clusters of nodes than elucidating
+the internal structure of such clusters. For example in a protein-protein
+interaction network (see Figure~\ref{fig:force-directed}) force-directed layouts
+are often used since they are good at indicating highly connected interactors
+and clusters of interactors, thus highlighting centrally significant parts of
+the graph. 
 
 The other commonly-used approach to rendering graphs visually is Sugiyama-style
 graph drawing ~\cite{sugiyama}. This method also attempts to group related
@@ -154,19 +156,19 @@ straightforward structures to lay out and display, but this method can be
 applied to multiply rooted directed graphs with cycles (such as biochemical
 pathways). 
 
-Until now, using the \emph{Sugiyama} method has required generating image files,
-either on demand or through batch preprocessing, and then sending them out over
-the network to a suitable display device. Several tools exist for this purpose,
-including GraphViz~\cite{graphviz}, which is used by several projects for
-rendering Gene Ontology graphs. This requires any group wishing to employ
+Until now, using the \emph{Sugiyama} method has required the generation of image
+files, either on demand or through batch preprocessing, and then sending them
+out over the network to a suitable display device. Several tools exist for this
+purpose, including GraphViz~\cite{graphviz}, which is used by several projects
+for rendering Gene Ontology graphs. This requires any group wishing to employ
 this method for graphical network analysis to have access to the resources and
 expertise to manage either a server capable of dynamically generating such
 images, or to produce the images required in advance. In either case, user
 interaction is very limited.
 
-What is new about this component is the use of a JavaScript Sugiyama layout
-engine to eliminate the image file generation, which cannot be done within a
-browser. Modern web browsers have advanced to the point where it is now
+What is new about the DAGViewer component is the use of a JavaScript Sugiyama
+layout engine to eliminate the image file generation, which cannot be done
+within a browser. Modern web browsers have advanced to the point where it is now
 practicable to calculate layouts for graphs of moderate size (in the order of
 around 200 to 500 nodes, depending on the density of connections) and render
 them in a dynamic hyper-text page, using tools such as JavaScript and Scaled
@@ -175,7 +177,7 @@ might want to visualise, particularly since networks of greater information
 densities are very difficult for humans to interpret when rendered. We have
 taken advantage of the opportunity afforded by modern browser tools to produce a
 generic network display tool that does not require any server-side resources,
-and which is suitable for a variety of scientific purposes. This approach
+and that is suitable for a variety of scientific purposes. This approach
 provides a much greater degree of customisation, interaction and flexibility
 than approaches based on image generation.
 
@@ -196,7 +198,8 @@ than approaches based on image generation.
 \caption{
     \label{fig:1}
     The DAGViewer, displaying annotations (left) from the Gene Ontology for
-    the \textit{D. melanogaster gene} \emph{cdc2}, and the control panel (right).
+    the \textit{Drosophila melanogaster} gene \emph{cdc2},
+    and the control panel (right).
 }
 \end{figure}
 
@@ -206,7 +209,8 @@ than approaches based on image generation.
 \caption{
   \label{fig:2}
   The graph viewer, displaying a subgraph of annotations from the Gene Ontology
-  for the \textit{D. melanogaster gene} \emph{cdc2}, selected using the control panel.
+  for the \textit{Drosophila melanogaster} gene \emph{cdc2}, selected using the
+  control panel.
 }
 \end{figure}
 
@@ -219,7 +223,7 @@ and graphical analysis possibilities, allowing users to focus on the data, e.g.
 in the Gene Ontology Annotation displayer in Figure~\ref{fig:1}.
 
 The current implementation allows a JavaScript component to be placed on any
-page and be provided with any kind of linked network data; the data is rendered
+page and be provided with any kind of linked network data; the data are rendered
 to the screen in the familiar box and line style of a Sugiyama graph drawing.
 Unlike static images, this graph can be zoomed, panned, reorientated and
 rescaled, allowing users to make sense of dense networks. Since the graph is
@@ -246,11 +250,11 @@ nodes reachable from one particular high-level ontology term,
 \subsection*{Installation}
 
 As a BioJS JavaScript component, the intended audience is web developers aiming
-to provide functionality for life-scientists. It is expected to be deployed
+to provide functionality for life scientists. It is expected to be deployed
 within HTML pages and rendered in modern browsers. As such,
 installation means indicating which resources a page needs to load.  The
 DAGViewer tool is a modular javascript component, making use of other existing
-resources (Appendix~\ref{sec:deps}); these dependencies need to be
+resources (Supplementary materials~\ref{sec:deps}); these dependencies need to be
 included on the page before the component itself can be used.  Once these are
 loaded the BioJS DAGViewer component itself can be included (see code
 sample~\ref{code:loading}).  This should be downloaded from the BioJS
@@ -369,25 +373,25 @@ flexible than this library. Furthermore, The publication of this library as part
 of the BioJS project explicitly encourages interaction between multiple
 components of different types. This enables a number of applications that are
 currently very difficult to implement correctly, such as rendering sets of
-annotations from the Gene Ontology and allowing user interaction. This component
-is aimed at a need that is particularly relevant for developers in the
-life-sciences, where there is frequent need to represent directed graphs, eg.
+annotations from the Gene Ontology and allowing user interaction. The DAGViewer
+component is aimed at a need that is particularly relevant for developers in the
+life sciences, where there is frequent need to represent directed graphs, e.g.
 when dealing with phylogeny, pathways, developmental stages or ontologies.
 
 Beyond simplifying this task for developers wishing to get started in graphical
 network visualisation and analysis, by being built from open web-standard
 technologies this tool can be used to interoperate with existing and future
 applications in ways impossible for static image rendering tools. The graph
-definition can be fetched from a remote networked webservice, for example, thus
+definition can be fetched from a remote networked web service, for example, thus
 integrating with a large number of existing browser accessible tools.
 
-The orginal use case for this tool was to create a graph viewer that would work
+The original use case for this tool was to create a graph viewer that would work
 well with InterMine web-services ~\cite{intermine}, and was generic as to
-data-type.  The wide variety of InterMine web-services now available as part of
+data type.  The wide variety of InterMine web-services now available as part of
 the InterMOD project ~\cite{intermod}, leads us to expect that this component
 would be broadly useful to a wide section of the bio-informatics developer
 community.  While it in no way depends on InterMine services, the design of this
-tool makes it straighforward to load from any of the available data-warehouses.
+tool makes it straightforward to load from any of the available data-warehouses.
 
 Because of its flexible data definition, this component is able to consume data
 from a wide variety of different sources with minimal parsing effort. Since the
@@ -395,15 +399,15 @@ standard node and edge representation is generally in the form of
 subject-predicate-object, this component would integrate very well into semantic
 web tools serving triples as their data representation.
 
-\section*{Conclusions}
+\section*{Conclusion}
 This component addresses an important need in the
-bio-informatics community for an effective, attractive and usable visualisation
+bioinformatics community for an effective, attractive and usable visualisation
 tool for a broad variety of directed acyclic graphs.  It is therefore
 anticipated that this tool will be of use to those developing tools for
-researchers in the life-sciences. A great deal of effort has gone into creating,
+researchers in the life sciences. A great deal of effort has gone into creating,
 curating and integrating high quality data sets, and there already exist many
 services which expose these data-sets to the world through networked
-web-services. This tool is designed to plug in seamlessly with existing
+web services. This tool is designed to plug in seamlessly with existing
 technologies, helping to maximise the value of existing and future curated data
 sets by bringing enhanced visualisation and exploration functionality.  By
 publishing this component freely within the BioJS project we expect that a great
@@ -411,40 +415,33 @@ deal of duplicated effort can be avoided, saving significant amounts of time and
 money for researchers and their funding bodies.
 
 \subsection*{Author contributions}
+
 Alex Kalderimis wrote the manuscript and implemented the component, under the
 supervision of Gos Micklem, to a set of user specifications supplied by Julie
-Sullivan, with feedback given by Rachel Lyne, Radek Štěpán and Mike Lyne.
-
-\subsection*{Acknowledgements}
-The author thanks Manuel Corpas for useful feedback.
+Sullivan. Rachel Lyne, Radek Štěpán and Mike Lyne contributed to the
+component design and revised the manuscript. All authors have approved the
+manuscript.
 
 \subsection*{Competing interests}
-The authors declare that there are no competing interests.
+No competing interests were disclosed.
 
 \subsection*{Grant information}
-This work has been developed with the support of the following grants, awarded
-to Dr. G. Micklem.
-
-\begin{enumerate}
-\item the Wellcome Trust
- \begin{itemize}
- \item{Grant number: 090297}
- \end{itemize}
-\item and the National Human Genome Research Institute.
- \begin{itemize}
- \item{Grant number: R01HG004834}
- \end{itemize}
-\end{enumerate}
+InterMine has been developed with the support of the following grants, awarded
+to Dr. G. Micklem: the Wellcome Trust (Grant number: 090297),
+and the National Human Genome Research Institute (Grant number: R01HG004834).
 
 The content is solely the responsibility of the authors and does not necessarily
 represent the official views of the funding bodies.
+
+\subsection*{Acknowledgements}
+The authors thank Manuel Corpas for useful feedback.
 
 \nocite{*}
 {\small\bibliographystyle{unsrt}
 \bibliography{references}}
 
 \clearpage
-\section*{Appendix}
+\section*{Supplementary materials}
 \appendix
 
 \section{Dependencies}
